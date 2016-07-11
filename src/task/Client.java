@@ -7,26 +7,30 @@ package task;
 
 import java.rmi.Naming;
 
+// The client, AKA customer. 
 public class Client {
 
-  public static void main(String args[]) {
-    try {
-      ShopServer server = (ShopServer)Naming.lookup("//localhost/RmiServer");
-      Cart cart = server.createCart();
-      cart.addProduct("Coffee");
-      cart.addProduct("Tea");
-      cart.addProduct("Java");
+    public static void main(String args[]) {
+        try {
+            // Connect to server
+            ShopServer server = (ShopServer) Naming.lookup("//localhost/RmiServer");
+            // Add cart, fill it up
+            Cart cart = server.createCart();
+            cart.addProduct("A Game of Thrones");
+            cart.addProduct("Watchmen");
+            cart.addProduct("How to Cook");
 
-      System.out.println("listing contents ..."); 
-      String[] contents = cart.listContents();
-        for (String content : contents) {
-            System.out.println(" - " + content);
+            // Print contents
+            System.out.println("listing contents ...");
+            String[] contents = cart.listContents();
+            for (String content : contents) {
+                System.out.println(" - " + content);
+            }
+            
+            // Buy stuff, with customer's ID as param
+            cart.buy("Mickey Mouse");
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-
-      cart.buy("rsinger");    
-    } catch(Exception ex) {
-      ex.printStackTrace();
     }
-  }
 }
-

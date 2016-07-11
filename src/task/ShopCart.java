@@ -10,12 +10,12 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.ArrayList;
 
+// The actual class for the cart
 public class ShopCart extends UnicastRemoteObject implements Cart {
   List<String> products;
-  boolean pending = false;
 
   public ShopCart() throws RemoteException {
-    products = new ArrayList<String>();
+    products = new ArrayList<>();
   } 
 
   public void addProduct(String name) {
@@ -37,7 +37,7 @@ public class ShopCart extends UnicastRemoteObject implements Cart {
 
   public void buy(String custID) {
     System.out.println("buy products: "+custID);
-    pending = false;
-    // Hier Bestellung verschicken ...
+    // If this were real, it would continue.
+    // But this is just a demo, so we're done here.
   } 
 }

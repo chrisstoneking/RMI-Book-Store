@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
 
 public interface ShopServer extends Remote {
 
-  public Cart createCart() throws RemoteException;
+    // All the methods used by the server
+    public Cart createCart() throws RemoteException;
 
 }
