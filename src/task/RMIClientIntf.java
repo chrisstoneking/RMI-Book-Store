@@ -8,9 +8,7 @@ package task;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface ShopServer extends Remote {
-
-    // All the methods used by the server
-    public Cart createCart() throws RemoteException;
-
+public interface RMIClientIntf extends Remote {
+    public void initialise () throws RemoteException;
+    
 }

@@ -5,39 +5,43 @@
  */
 package task;
 
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.server.UnicastRemoteObject;
 import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.rmi.registry.*; 
+public class RMIServer extends UnicastRemoteObject implements RMIServerIntf {
+    public static final String MESSAGE = "Hello World";
 
-// The actual server
-public class Server extends UnicastRemoteObject implements ShopServer {
-
-    public Server() throws RemoteException {
+    public RMIServer() throws RemoteException {
+        super(0);    // required to avoid the 'rmic' step, see below
     }
 
-    public Cart createCart() throws RemoteException {
-        System.out.println("create cart");
-        return new ShopCart();
+    public String getMessage() {
+        return MESSAGE;
+    }
+    public MainFrame makeFrame() throws RemoteException {
+        return new MainFrame();
     }
 
     public static void main(String args[]) throws Exception {
         System.out.println("RMI server started");
 
-        // Create the registry
         try { //special exception handler for registry creation
-            LocateRegistry.createRegistry(1099);
+            LocateRegistry.createRegistry(1099); 
             System.out.println("java RMI registry created.");
         } catch (RemoteException e) {
             //do nothing, error means registry already exists
             System.out.println("java RMI registry already exists.");
         }
-
+           
         //Instantiate RmiServer
-        Server obj = new Server();
+
+        RMIServer obj = new RMIServer();
 
         // Bind this object instance to the name "RmiServer"
         Naming.rebind("//localhost/RmiServer", obj);
         System.out.println("PeerServer bound in registry");
     }
+
+    
 }
