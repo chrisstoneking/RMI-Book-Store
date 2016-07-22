@@ -1,18 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package task;
 
-/**
- *
- * @author Chris
- */
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+// The server interface. All methods to be accessed by the client must be listed here.
 public interface RMIServerIntf extends Remote {
-    public String getMessage() throws RemoteException;
     public MainFrame makeFrame() throws RemoteException;
 }

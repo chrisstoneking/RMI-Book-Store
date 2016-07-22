@@ -1,28 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package task;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.registry.*; 
+
+// The RMI server. Offers methods to client.
 public class RMIServer extends UnicastRemoteObject implements RMIServerIntf {
-    public static final String MESSAGE = "Hello World";
 
     public RMIServer() throws RemoteException {
         super(0);    // required to avoid the 'rmic' step, see below
     }
-
-    public String getMessage() {
-        return MESSAGE;
-    }
+    
+    // This is the method the client calls.
     public MainFrame makeFrame() throws RemoteException {
         return new MainFrame();
     }
 
+    // Setup the server.
     public static void main(String args[]) throws Exception {
         System.out.println("RMI server started");
 

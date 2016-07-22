@@ -1,18 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package task;
 
 import java.rmi.Naming;
 
+// The RMI client. Can access server methods.
 public class RMIClient { 
     public static void main(String args[]) throws Exception {
+        // Connect to the server
         RMIServerIntf obj = (RMIServerIntf)Naming.lookup("//localhost/RmiServer");
-        System.out.println(obj.getMessage()); 
+        // Get the GUI, the main object of our little shop
         MainFrame m = obj.makeFrame();
-        System.out.println("Got Frame");
+        // This was just for testing
+        // System.out.println("Got Frame");
+        // Start the GUI
         m.initialise();
         
     }

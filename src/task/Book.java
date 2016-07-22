@@ -3,6 +3,7 @@ package task;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+//The book class, used to store info on each book
 public class Book  extends UnicastRemoteObject{
    public String title;
    public String author;
