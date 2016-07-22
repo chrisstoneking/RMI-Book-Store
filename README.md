@@ -5,16 +5,15 @@ By Christopher Stoneking and Christian Schulz
 Goal: Create fictional book store using Java RMI
 
 TODO:
-1.Add GUI (Chris)
-	- Use CardLayout to display different books -> DONE
-	- Make use of Add to Cart, should subtract 1 from a number (local var for now, just to test)
-	- Make use of Show Cart -> Done for now, will implement quantities later
-	- Make use of Buy -> Done for now, will implement quantities later
-
+1. Add GUI (Chris)
+  - Use CardLayout to display different books -> DONE
+  - Make use of Add to Cart, should subtract 1 from a number (local var for now, just to test)
+  - Make use of Show Cart -> Done for now, will implement quantities later
+  - Make use of Buy -> Done for now, will implement quantities later
 2. Link to database with JDBC (Christian)
-	- As of today, the books are just locally created objects
-	- Database should include: Title, author, price, category, quantity, cover image
-	- Database extraction should involve: Getting stuff from database, passing it on to where it is needed, i.e. making Book objects
+  - As of today, the books are just locally created objects
+  - Database should include: Title, author, price, category, quantity, cover image
+  - Database extraction should involve: Getting stuff from database, passing it on to where it is needed, i.e. making Book objects
 
 
 Note: Ideally, the class MainFrame is the only one that the server actually passes on.
