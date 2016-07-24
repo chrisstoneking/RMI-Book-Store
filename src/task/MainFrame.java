@@ -35,6 +35,8 @@ public class MainFrame extends JFrame {
     public void initialise() throws RemoteException {
     	    	
         // Do all the setup stuff
+    	ImageIcon img = new ImageIcon("./src/img/frame_icon.png");
+    	this.setIconImage(img.getImage());
         this.setTitle("RMI Book Store");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.control = new Controller();
