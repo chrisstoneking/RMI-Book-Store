@@ -34,6 +34,13 @@ public class DatabaseConnection {
 		}
 	}
 	
+	/**
+	 * Get all books by Category
+	 * @param category - Category NAme
+	 * @return Book List
+	 * @throws SQLException
+	 * @throws RemoteException
+	 */
 	public ArrayList<Book> getBooksByCategory(String category) throws SQLException, RemoteException
 	{
 		ArrayList<Book> books = new ArrayList<>();
@@ -44,6 +51,7 @@ public class DatabaseConnection {
 		while(rs.next())
 		{
 			b = new Book();
+			b.isbn = rs.getString("isbn_nr");
 			b.author = rs.getString("nachname")+ ", " + rs.getString("vorname");
 			b.category = category;
 			b.price = rs.getDouble("preis");
@@ -52,7 +60,21 @@ public class DatabaseConnection {
 			b.description = rs.getString("beschreibung");
 			books.add(b);
 		}
+		books.sort((b1, b2) -> b1.title.compareToIgnoreCase(b2.title));
 		return books;
-		
+	}
+	
+	/**
+	 * Send order to database
+	 * @param books - Book List
+	 * @throws SQLException
+	 */
+	public void SendOrder(ArrayList<Book> books) throws SQLException
+	{
+		PreparedStatement ps = conn.prepareStatement("INSERT INTO kauf (kid, isb_nr) VALUES(1, ?);");
+		for (Book book : books) {
+			ps.setString(1, book.isbn);
+			ps.execute();
+		}
 	}
 }
