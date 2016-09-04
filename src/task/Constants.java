@@ -40,7 +40,7 @@ public class Constants {
 		radio.setFont(font);
 		radio.setForeground(Color.WHITE);
 		radio.setBackground(backgroundColor_02);
-		radio.setBorder(new EmptyBorder(5, 5, 5, 5));
+		radio.setBorder(new EmptyBorder(5, 10, 5, 5));
 		return radio;
 	}
 	

@@ -6,6 +6,7 @@ import java.rmi.server.UnicastRemoteObject;
 //The book class, used to store info on each book
 public class Book  extends UnicastRemoteObject{
    public String title;
+   public String isbn;
    public String author;
    public String description;
    public double price;

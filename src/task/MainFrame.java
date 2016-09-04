@@ -19,13 +19,10 @@ import static javax.swing.JOptionPane.*;
 public class MainFrame extends JFrame {
 	JList<Book> bookList;
 	JScrollPane scroll;
+	JLabel cartLabel;
     public Controller control = null;
     JPanel cards;
-    Book book1;
-    Book book2;
-    Book book3;
-    Book book4;
-    ArrayList products = new ArrayList();
+    ArrayList<Book> products = new ArrayList<>();
     double totalprice = 0;
    
     /**
@@ -41,15 +38,26 @@ public class MainFrame extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.control = new Controller();
         this.control.view = this;
-        this.setSize(1024,920);
+        this.setSize(820,650);
         JPanel contentPane = new JPanel(new BorderLayout());
+        
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(Constants.backgroundColor_02); 
+        cartLabel = Constants.CreateMyLabel("Shopping cart: 0", 15, Font.PLAIN, JLabel.RIGHT_ALIGNMENT);
+        cartLabel.setForeground(Color.WHITE);
+        cartLabel.setBorder(new EmptyBorder(10,10,10,15));
+        JLabel titleLabel = Constants.CreateMyLabel("RMI Book Store", 20, Font.BOLD, JLabel.LEFT_ALIGNMENT);
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setBorder(new EmptyBorder(10,15,10,10));
+        headerPanel.add(titleLabel, BorderLayout.WEST);
+        headerPanel.add(cartLabel, BorderLayout.EAST);
+        contentPane.add(headerPanel, BorderLayout.NORTH);
         
         // Set up the switch-category buttons
         JRadioButton fantasyButton = Constants.CreateMyRadioButton("Fantasy");
         fantasyButton.addActionListener(this.control);
         fantasyButton.setActionCommand("FANTASY");
-        fantasyButton.setSelected(true);
-        
+
         JRadioButton horrorButton = Constants.CreateMyRadioButton("Horror");
         horrorButton.addActionListener(this.control);
         horrorButton.setActionCommand("HORROR");
@@ -57,6 +65,7 @@ public class MainFrame extends JFrame {
         JRadioButton scifiButton = Constants.CreateMyRadioButton("Science Fiction");
         scifiButton.addActionListener(this.control);
         scifiButton.setActionCommand("SCIFI");
+        scifiButton.setSelected(true);
         
         JRadioButton thrillerButton = Constants.CreateMyRadioButton("Thriller");
         thrillerButton.addActionListener(this.control);
@@ -70,7 +79,7 @@ public class MainFrame extends JFrame {
         
         JLabel categoryLabel = Constants.CreateMyLabel("Categories:", 15, Font.BOLD, JLabel.LEFT_ALIGNMENT);
         categoryLabel.setForeground(Color.WHITE);
-        categoryLabel.setBorder(new EmptyBorder(10, 5, 5, 5));
+        categoryLabel.setBorder(new EmptyBorder(10, 15, 10, 10));
         // Add the buttons to the panel, in a way that they're arranged vertically
         JPanel categoriesPanel = new JPanel();
         categoriesPanel.setBackground(Constants.backgroundColor_02);
@@ -108,13 +117,14 @@ public class MainFrame extends JFrame {
 //        cards.add(card4, "THRILLER");
         // Add the central part to the GUI
     	bookList = new JList<>();
+    	bookList.addMouseListener(control);
     	scroll = new JScrollPane(bookList);
     	scroll.getVerticalScrollBar().setUnitIncrement(25);
     	scroll.setBorder(new EmptyBorder(5, 5, 5, 5));
     	DefaultListModel<Book> dlm = new DefaultListModel<>();
     	bookList.setCellRenderer(new BookListCellRenderer(control));
     	bookList.setModel(dlm);
-    	this.updateBookList("Fantasy");
+    	this.updateBookList("Science Fiction");
         contentPane.add(scroll, BorderLayout.CENTER);
 
         // Next, add the button for buying everything and the button for showing everything
@@ -178,43 +188,6 @@ public class MainFrame extends JFrame {
     }
 
 
-    /**
-     * Make a JPanel containing all the info on one book
-     * @param b: The book for the JPanel
-     * @return a JPanel containing the info
-     */
-//    public Component makeBookPanel(String category) {
-//    	bookList = new JList<>();
-//    	JScrollPane scroll = new JScrollPane(bookList);
-//    	DefaultListModel<Book> dlm = new DefaultListModel<>();
-//    	bookList.setCellRenderer(new BookListCellRenderer(control));
-//    	bookList.setModel(dlm);
-//    	DatabaseConnection dbc = new DatabaseConnection();
-//    	try {
-//			ArrayList<Book> books = dbc.getBooksByCategory(category);
-//			for (Book book2 : books) {
-//				dlm.addElement(book2);
-//			}
-//		} catch (RemoteException | SQLException e) {
-//			e.printStackTrace();
-//		}
-//    	
-////        JPanel book = new JPanel();
-////        book.setLayout(new BoxLayout(book, BoxLayout.Y_AXIS));
-////        JLabel cover = new JLabel(createImageIcon(b.cover));
-////        book.add(cover);
-////        JLabel stuff = new JLabel("<html>" + b.title + "<br>" + b.author + "<br>" + b.price + "</html>", JLabel.CENTER);
-////        book.add(stuff);
-////        JPanel cart = new JPanel();
-////        JButton addToCart = new JButton("Add to Cart");
-////        String com = "BUY;" + b.title + ";" + b.price + " €";
-////        addToCart.setActionCommand(com);
-////        addToCart.addActionListener(this.control);
-////        cart.add(addToCart, BorderLayout.CENTER);
-////        book.add(cart);
-//        return scroll;
-//    }
-
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -229,53 +202,53 @@ public class MainFrame extends JFrame {
 //        cat.add(panel1);
     }
 
-    /**
-     * Switch the book content to that of all the fantasy books
-     * Near-identical methods exist for the horror, scifi and thriller books
-     * @throws java.rmi.RemoteException
-     */ 
-    public void makeFantasy() throws RemoteException {
-        this.book1 = new Book("The Hobbit", "J.R.R.Tolkien", 14.99, "Fantasy", "/img/hobbit.png");
-        this.book2 = new Book("A Storm of Swords", "George.R.R.Martin", 19.99, "Fantasy", "/img/stormofswords.png");
-        this.book3 = new Book("The Blade Itself", "Joe Abercrombie", 16.99, "Fantasy", "/img/blade.png");
-    }
-
-    public void makeHorror() throws RemoteException {
-        this.book1 = new Book("The Shining", "Stephen King", 17.99, "Horror", "/img/shining.jpg");
-        this.book2 = new Book("Dracula", "Bram Stoker", 19.99, "Horror", "/img/dracula.jpg");
-        this.book3 = new Book("It", "Stephen King", 14.99, "Horror", "/img/it.jpg");
-    }
-
-    public void makeSciFi() throws RemoteException {
-        this.book1 = new Book("Do Androids Dream of Electric Sheep?", "Philip K. Dick", 13.99, "Science Fiction", "/img/sheep.jpg");
-        this.book2 = new Book("Ender's Game", "Orson Scott Card", 15.99, "Science Fiction", "/img/endersgame.jpg");
-        this.book3 = new Book("The Hitchhiker's Guide to the Galaxy", "Douglas Adams", 19.99, "Science Fiction", "/img/hitchhiker.jpg");
-    }
-
-    public void makeThriller() throws RemoteException {
-        this.book1 = new Book("The Partner", "John Grishham", 14.99, "Thriller", "/img/partner.jpg");
-        this.book2 = new Book("The Hunt for Red October", "Tom Clancy", 18.99, "Thriller", "/img/october.jpg");
-        this.book3 = new Book("The Street Lawyer", "John Grishham", 14.99, "Thriller", "/img/street.jpg");
-    }
+//    /**
+//     * Switch the book content to that of all the fantasy books
+//     * Near-identical methods exist for the horror, scifi and thriller books
+//     * @throws java.rmi.RemoteException
+//     */ 
+//    public void makeFantasy() throws RemoteException {
+//        this.book1 = new Book("The Hobbit", "J.R.R.Tolkien", 14.99, "Fantasy", "/img/hobbit.png");
+//        this.book2 = new Book("A Storm of Swords", "George.R.R.Martin", 19.99, "Fantasy", "/img/stormofswords.png");
+//        this.book3 = new Book("The Blade Itself", "Joe Abercrombie", 16.99, "Fantasy", "/img/blade.png");
+//    }
+//
+//    public void makeHorror() throws RemoteException {
+//        this.book1 = new Book("The Shining", "Stephen King", 17.99, "Horror", "/img/shining.jpg");
+//        this.book2 = new Book("Dracula", "Bram Stoker", 19.99, "Horror", "/img/dracula.jpg");
+//        this.book3 = new Book("It", "Stephen King", 14.99, "Horror", "/img/it.jpg");
+//    }
+//
+//    public void makeSciFi() throws RemoteException {
+//        this.book1 = new Book("Do Androids Dream of Electric Sheep?", "Philip K. Dick", 13.99, "Science Fiction", "/img/sheep.jpg");
+//        this.book2 = new Book("Ender's Game", "Orson Scott Card", 15.99, "Science Fiction", "/img/endersgame.jpg");
+//        this.book3 = new Book("The Hitchhiker's Guide to the Galaxy", "Douglas Adams", 19.99, "Science Fiction", "/img/hitchhiker.jpg");
+//    }
+//
+//    public void makeThriller() throws RemoteException {
+//        this.book1 = new Book("The Partner", "John Grishham", 14.99, "Thriller", "/img/partner.jpg");
+//        this.book2 = new Book("The Hunt for Red October", "Tom Clancy", 18.99, "Thriller", "/img/october.jpg");
+//        this.book3 = new Book("The Street Lawyer", "John Grishham", 14.99, "Thriller", "/img/street.jpg");
+//    }
 
     /**
      * Add a book to the cart
      * @param name: The book title, to be added to the 
      * @param price: The book price, to be added to the total price
      */
-    public void addProduct(String name, String price) {
-        String total = name + "     " + price + '\n';
+    public void addProduct(Book b) {
+        String total = b.title + "     " + b.price + '\n';
         // Must remove euro sign so value can be parsed
-        price = price.replace("â‚¬","");
-        totalprice += Double.parseDouble(price);
-        products.add(total);
+        totalprice += b.price;
+        products.add(b);
+        cartLabel.setText("Shopping cart: " + products.size());
         // Tell user the product has been added
-        JOptionPane.showMessageDialog(this, "Added to Cart:\n" + name, "Information", INFORMATION_MESSAGE);
+        //JOptionPane.showMessageDialog(this, "Added to Cart:\n" + b.title, "Information", INFORMATION_MESSAGE);
     }
 
     // This method isn't actually used yet - maybe in the future.
-    public void removeProduct(String name) {
-        products.remove(name);
+    public void removeProduct(Book b) {
+        products.remove(b);
     }
 
     /**
@@ -286,12 +259,15 @@ public class MainFrame extends JFrame {
             JOptionPane.showMessageDialog(this, "Your cart is empty", "Error", ERROR_MESSAGE);
         }
         else {
-            Iterator it = products.iterator();
-            String contents = "";
-            while (it.hasNext() == true) {
-                contents += it.next();
-            }
-            JOptionPane.showMessageDialog(this, "Your cart contains:\n" + contents, "Information", INFORMATION_MESSAGE);
+            StringBuilder books = new StringBuilder();
+            for (int i = 0; i < products.size(); i++) {
+            	books.append("   -  ").append(products.get(i).title);
+            	if (i != products.size() - 1)
+            	{
+            		books.append(",\n");
+            	}
+			}
+            JOptionPane.showMessageDialog(this, "Your cart contains:\n" + books, "Information", INFORMATION_MESSAGE);
         }
         
     }
@@ -300,7 +276,13 @@ public class MainFrame extends JFrame {
      * Buy all products in the cart, reset the price
      */
     public void buy() {
-        JOptionPane.showMessageDialog(this, "You have bought items worth " + totalprice + "â‚¬.\nThank you for doing business with us!", "Information", INFORMATION_MESSAGE);
+    	try {
+    		DatabaseConnection dbc = new DatabaseConnection();
+			dbc.SendOrder(products);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(this, "Sorry. We couldn't process your order. Please try it later again.", "Error", ERROR_MESSAGE);
+		}
+        JOptionPane.showMessageDialog(this, "We've received your order. You have bought items worth " + totalprice + "€\nThank you for doing business with us!", "Information", INFORMATION_MESSAGE);
         this.products.clear();
         totalprice = 0;
     }
